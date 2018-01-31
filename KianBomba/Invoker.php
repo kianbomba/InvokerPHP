@@ -42,9 +42,17 @@ class Invoker
 		)
 	);
 
+	/**
+	 * @var Invoker
+	 */
 	private static $_invoker;
 
-	private $_defineItems = ["*", "[", "]", "(", ")", "^", "%", "#", "!", "-", "=", "+", "&", "$", "`", "~", " ", "{", "}", ",", "<", ">", "?", "/", "|"];
+	private $_defineItems = ["*", "[", "]", "(", ")", "^", "%", "#", "!", "-", "=", "&", "$", "`", "~", "\"", "{", "}", ",", "<", ">", "?", "/", "|", "@", ".", "_", "+"];
+
+	/**
+	 * Invoker constructor.
+	 */
+	private function __construct() {}
 
 	/**
 	 * @return Invoker
@@ -55,16 +63,13 @@ class Invoker
 		return self::$_invoker;
 	}
 
-	/**
-	 * Invoker constructor.
-	 */
-	private function __construct() {}
 
 	/**
 	 * @param string $email
 	 * @return bool
 	 *
-	 * @description return true which is email is valid and false otherwise
+	 * @description return true which is email is valid and false otherwise. The method is only useful for the common email
+	 * only
 	 */
 	public function isEmail(string $email): bool
 	{
@@ -81,11 +86,6 @@ class Invoker
 		unset($checker);
 		$count = substr_count($email, ".");
 		if ($count > 2) return false;
-
-		for ($i = 0; $i < count($this->_defineItems); $i++)
-		{
-			if (stripos($email, $this->_defineItems[$i]) !== false) return false;
-		}
 
 		return true;
 	}
@@ -158,5 +158,21 @@ class Invoker
 
 		unset($translations);
 		return $haystack;
+	}
+
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	public function isValidName($name): bool
+	{
+		if (is_null($name) || !is_string($name)) return false;
+
+		for ($i = 0; $i < count($this->_defineItems);$i++)
+		{
+			if (stripos($name, $this->_defineItems[$i]) !== false) return false;
+		}
+
+		return true;
 	}
 }

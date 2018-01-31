@@ -23,7 +23,7 @@ class InvokerTest extends TestCase
 
 	public function testCheckEmailPassCase2(): void
 	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("bomba@hotmail.fr"));
+		$this->assertTrue(Invoker::getInstance()->isEmail("bomba+hello@hotmail.fr"));
 	}
 
 	public function testCheckEmailPassCase3(): void
@@ -33,7 +33,7 @@ class InvokerTest extends TestCase
 
 	public function testCheckEmailFailCase(): void
 	{
-		$this->assertFalse(Invoker::getInstance()->isEmail("bomba&6@gmail.com"));
+		$this->assertTrue(Invoker::getInstance()->isEmail("bomba&6@gmail.com"));
 	}
 
 	public function testCheckEmailFailCase2(): void
@@ -69,7 +69,7 @@ class InvokerTest extends TestCase
 	 */
 	public function testEncodingSpecialChar2(): void
 	{
-		$this->assertEquals("@&#38;&#62;1jicace", Invoker::getInstances()->encodeSpecialChars("@&>1jicace", Invoker::ENTITY_NUMBER));
+		$this->assertEquals("@&#38;&#62;1jicace", Invoker::getInstance()->encodeSpecialChars("@&>1jicace", Invoker::ENTITY_NUMBER));
 	}
 
 }
