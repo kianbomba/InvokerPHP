@@ -12,9 +12,12 @@ use Exception;
 
 class InstanceNotMatchException extends Exception
 {
-	public function __construct(string $expected_instance, string $actual_instance, int $code = 0, Exception $previous = null)
+	public function __construct(string $expected_instance, $input, int $code = 0, Exception $previous = null)
 	{
-		$message = "Expected Instance {$expected_instance} but received the {$actual_instance}";
+		$actual_instance = gettype($input);
+		if (is_object($input)) $actual_instance = get_class($input);
+		$message = "Expected Input Instance to be {$expected_instance} but received the {$actual_instance}";
+
 		parent::__construct($message, $code, $previous);
 	}
 }
