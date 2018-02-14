@@ -72,4 +72,9 @@ class InvokerTest extends TestCase
 		$this->assertEquals("@&#38;&#62;1jicace", Invoker::getInstance()->encodeSpecialChars("@&>1jicace", Invoker::ENTITY_NUMBER));
 	}
 
+
+    public function testIsValueTrue(): void
+    {
+        $this->assertTrue(Invoker::getInstance()->isTrue("y"));
+    }
 }

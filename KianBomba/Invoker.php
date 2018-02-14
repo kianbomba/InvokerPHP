@@ -175,4 +175,13 @@ class Invoker
 
 		return true;
 	}
+
+    /**
+     * @param $value
+     * @return bool
+     */
+	public function isTrue($value): bool
+    {
+        return in_array($value, ["y", "yes", "1", 1, "true"]);
+    }
 }
