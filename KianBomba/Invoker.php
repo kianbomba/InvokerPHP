@@ -83,10 +83,6 @@ class Invoker
 
 		if (!is_int($checker)) return false;
 
-		unset($checker);
-		$count = substr_count($email, ".");
-		if ($count > 2) return false;
-
 		return true;
 	}
 

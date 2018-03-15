@@ -21,6 +21,11 @@ class InvokerTest extends TestCase
 		$this->assertTrue(Invoker::getInstance()->isEmail("kianbomba@gmail.com"));
 	}
 
+	public function testEmailPassCase4(): void
+	{
+		$this->assertTrue(Invoker::getInstance()->isEmail("kian.bomba@abcs.co.nz"));
+	}
+
 	public function testCheckEmailPassCase2(): void
 	{
 		$this->assertTrue(Invoker::getInstance()->isEmail("bomba+hello@hotmail.fr"));
