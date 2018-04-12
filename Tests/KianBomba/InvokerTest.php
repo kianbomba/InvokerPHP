@@ -82,4 +82,10 @@ class InvokerTest extends TestCase
     {
         $this->assertTrue(Invoker::getInstance()->isTrue("y"));
     }
+
+    public function testEmailFilter(): void
+    {
+        $expeceted = "kianbomba@gmail.com";
+        $this->assertEquals($expeceted, Invoker::getInstance()->emailFilter($expeceted));
+    }
 }

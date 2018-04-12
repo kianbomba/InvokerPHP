@@ -178,6 +178,17 @@ class Invoker
      */
 	public function isTrue($value): bool
     {
-        return in_array($value, ["y", "yes", "1", 1, "true"]);
+        if (is_bool($value)) return $value;
+
+        return in_array(strtolower($value), ["y", "yes", "1", 1, "true"]);
+    }
+
+    /**
+     * @param string $email
+     * @return string
+     */
+    public function emailFilter($email): string
+    {
+        return (string) filter_var($email, FILTER_SANITIZE_EMAIL, array('options' => ['default' => ""]));
     }
 }
