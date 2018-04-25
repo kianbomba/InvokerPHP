@@ -66,4 +66,9 @@ interface ListProvider
 	 * @return bool
 	 */
 	public function remove($key): bool;
+
+    /**
+     * @throws InstanceNotMatchException
+     */
+    public function validate(): void;
 }

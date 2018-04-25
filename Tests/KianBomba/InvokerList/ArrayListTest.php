@@ -54,10 +54,6 @@ class ArrayListTest extends TestCase
 	{
 
 		$arr = new ArrayList(TestObject::class);
-
-		$this->assertTrue(true);
-
-
 		$this->expectException(InstanceNotMatchException::class);
 		$arr->push(new Test2());
 	}
@@ -80,7 +76,8 @@ class ArrayListTest extends TestCase
 	public function testNumberInstance(): void
 	{
 		$container = new ArrayList("double");
-		try {
+		try
+        {
 			$container->push(1.1);
 			$this->assertTrue(true);
 		}
@@ -90,6 +87,22 @@ class ArrayListTest extends TestCase
 			$this->assertTrue(false);
 		}
 	}
+
+	public function testInterating(): void
+    {
+        $testObject1 = new TestObject("kianbomba");
+        $testObject2 = new TestObject("kiannguyen");
+
+        $container = new ArrayList(TestObject::class);
+        $container->push($testObject1);
+        $container->push($testObject2);
+
+        $test = $this;
+
+        $container->each(function(TestObject $item, int $key) use ($test, $testObject1) {
+            if ($key == 0) $this->assertEquals($testObject1, $item);
+        });
+    }
 
 }
 

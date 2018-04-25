@@ -10,8 +10,21 @@ namespace KianBomba\Exception;
 
 use Exception;
 
+
+/**
+ * Class InstanceNotMatchException
+ * @package KianBomba\Exception
+ */
 class InstanceNotMatchException extends Exception
 {
+
+    /**
+     * InstanceNotMatchException constructor.
+     * @param string $expected_instance
+     * @param $input
+     * @param int $code
+     * @param Exception|null $previous
+     */
 	public function __construct(string $expected_instance, $input, int $code = 0, Exception $previous = null)
 	{
 		$actual_instance = gettype($input);

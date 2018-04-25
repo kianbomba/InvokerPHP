@@ -35,29 +35,31 @@ class ArrayList implements ListProvider
 	 * ArrayList constructor.
 	 * @param string $class_name
 	 * @param array $data
-	 * @throws InstanceNotMatchException
 	 */
 	public function __construct(string $class_name, array $data = [])
 	{
 		$this->_instance = $class_name;
-		$this->_container = [];
+		$this->_container = $data;
 		$this->_iterator = null;
-
-		if (count($data) > 0)
-		{
-			foreach ($data as $item)
-			{
-				if ($item instanceof $this->_instance === false)
-				{
-					throw new InstanceNotMatchException($this->_instance, $item);
-				}
-
-				$this->_container[] = $item;
-			}
-		}
 	}
 
-	/**
+    /**
+     * @throws InstanceNotMatchException
+     */
+	public function validate(): void
+    {
+        if (count($this->_container) == 0) return;
+        foreach ($this->_container as $item)
+        {
+            if (! $item instanceof $this->_instance)
+            {
+                throw new InstanceNotMatchException($this->_instance, $item);
+            }
+        }
+
+    }
+
+    /**
 	 * @return bool
 	 * @description checking whether the container is empty or not
 	 */
@@ -101,8 +103,10 @@ class ArrayList implements ListProvider
 	 */
 	public function getCurrent()
 	{
-		if (!is_null($this->_iterator) && isset($this->_container[$this->_iterator])) return $this->_container[$this->_iterator];
-
+		if (!is_null($this->_iterator) && isset($this->_container[$this->_iterator]))
+        {
+            return $this->_container[$this->_iterator];
+        }
 
 		return $this->getFirstItem();
 	}
@@ -160,4 +164,20 @@ class ArrayList implements ListProvider
 		unset($this->_container[$key]);
 		return true;
 	}
+
+    /**
+     * @param callable $method
+     * - iterating the array list
+     */
+	public function each(callable $method): void
+    {
+        /**
+         * @var mixed $key
+         * @var mixed $item
+         */
+        foreach ($this->_container as $key => $item)
+        {
+            $method($item, $key);
+        }
+    }
 }
