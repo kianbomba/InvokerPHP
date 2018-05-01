@@ -191,4 +191,20 @@ class Invoker
     {
         return (string) filter_var($email, FILTER_SANITIZE_EMAIL, array('options' => ['default' => ""]));
     }
+
+    /**
+     * @param array $data
+     * @param callable $callback
+     *
+     * - the callback method to iterate the array of object
+     */
+    public function each(array $data, callable $callback ): void
+    {
+        if (!is_callable($callback)) return;
+
+        foreach ($data as $key => $value)
+        {
+            $callback($value, $key);
+        }
+    }
 }
