@@ -14,9 +14,6 @@ class Invoker
 	private $_translations = array(
 		1 => array (
 			'&' => "&amp;",
-			' ' => "&nbsp;",
-			'<' => "&lt;",
-			'>' => "&gt;",
 			'"' => "&quot;",
 			'\'' => "&apos;",
 			'¢' => "&cent;",
@@ -28,9 +25,6 @@ class Invoker
 		),
 		2 => array (
 			'&' => "&#38;",
-			' ' => "&#160;",
-			'<' => "&#60;",
-			'>' => "&#62;",
 			'"' => "&#34;",
 			'\'' => "&#39;",
 			'¢' => "&#162;",
@@ -117,12 +111,20 @@ class Invoker
 	{
 		if (!is_string($haystack) || is_null($haystack)) return "";
 
-		if (!$encodeSpecialChars) return preg_replace( '/[^a-zA-Z0-9._\-: ]/', '', $haystack);
+		if (!$encodeSpecialChars) 
+		{
+			$regex = "/[^a-zA-Z0-9._\-: ]/";
 
-		try {
+			$sanitized = preg_replace($regex, '', $haystack);
+			return $sanitized;
+		}
+
+		try 
+		{
+			$regex = "/[^a-zA-Z0-9._\-:&#@;\\~!`$%^*(){}\[\]<>?\/=\+ ]/";
 			$haystack = $this->encodeSpecialChars($haystack);
-
-			return preg_replace( '/[^a-zA-Z0-9._\-:&#; ]/', '', $haystack);
+			
+			return preg_replace($regex, '', $haystack);
 		}
 		catch (InvokerException $ie)
 		{
@@ -138,7 +140,7 @@ class Invoker
 	 *
 	 * @throws InvokerException
 	 */
-	public function encodeSpecialChars(string $haystack, int $entityType = Invoker::ENTITY_NAME): string
+	public function encodeSpecialChars(string $haystack, int $entityType = self::ENTITY_NAME): string
 	{
 		if (!isset($this->_translations[$entityType]))
 		{
@@ -149,10 +151,9 @@ class Invoker
 
 		foreach ($translations as $i => $key)
 		{
-				$haystack = str_replace($i, $key, $haystack);
+			$haystack = str_replace($i, $key, $haystack);
 		}
 
-		unset($translations);
 		return $haystack;
 	}
 
