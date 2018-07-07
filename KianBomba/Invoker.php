@@ -11,7 +11,7 @@ class Invoker
 	public const ENTITY_NAME = 1;
 	public const ENTITY_NUMBER = 2;
 
-	private $_translations = array(
+	private $translations = array(
 		1 => array (
 			'&' => "&amp;",
 			'"' => "&quot;",
@@ -39,22 +39,17 @@ class Invoker
 	/**
 	 * @var Invoker
 	 */
-	private static $_invoker;
+	private static $invoker;
 
-	private $_defineItems = ["*", "[", "]", "(", ")", "^", "%", "#", "!", "-", "=", "&", "$", "`", "~", "\"", "{", "}", ",", "<", ">", "?", "/", "|", "@", ".", "_", "+"];
-
-	/**
-	 * Invoker constructor.
-	 */
-	private function __construct() {}
+	private $defineItems = ["*", "[", "]", "(", ")", "^", "%", "#", "!", "-", "=", "&", "$", "`", "~", "\"", "{", "}", ",", "<", ">", "?", "/", "|", "@", ".", "_", "+"];
 
 	/**
 	 * @return Invoker
 	 */
 	public static function getInstance() {
-		if (!isset(self::$_invoker)) self::$_invoker = new Invoker();
+		if (!isset(self::$invoker)) self::$invoker = new Invoker();
 
-		return self::$_invoker;
+		return self::$invoker;
 	}
 
 
@@ -142,12 +137,12 @@ class Invoker
 	 */
 	public function encodeSpecialChars(string $haystack, int $entityType = self::ENTITY_NAME): string
 	{
-		if (!isset($this->_translations[$entityType]))
+		if (!isset($this->translations[$entityType]))
 		{
 			throw new InvokerException("No entity type found for key {$entityType}");
 		}
 
-		$translations = $this->_translations[$entityType];
+		$translations = $this->translations[$entityType];
 
 		foreach ($translations as $i => $key)
 		{
@@ -165,9 +160,9 @@ class Invoker
 	{
 		if (is_null($name) || !is_string($name)) return false;
 
-		for ($i = 0; $i < count($this->_defineItems);$i++)
+		for ($i = 0; $i < count($this->defineItems);$i++)
 		{
-			if (stripos($name, $this->_defineItems[$i]) !== false) return false;
+			if (stripos($name, $this-> gdefineItems[$i]) !== false) return false;
 		}
 
 		return true;
@@ -179,6 +174,7 @@ class Invoker
      */
 	public function isTrue($value): bool
     {
+        if (is_null($value)) return false;
         if (is_bool($value)) return $value;
 
         return in_array(strtolower($value), ["y", "yes", "1", 1, "true"]);

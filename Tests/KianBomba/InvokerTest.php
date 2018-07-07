@@ -13,38 +13,29 @@ use PHPUnit\Framework\TestCase;
 
 class InvokerTest extends TestCase
 {
-	/**
-	 * @test
-	 */
-	public function testCheckEmailPassCase(): void
-	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("kianbomba@gmail.com"));
-	}
+    public function provideEmailData(): array
+    {
+        return array(
+            array("kianbomba@gmail.com", true),
+            array("kian.bomba@abcs.co.nz", true),
+            array("bomba+hello@hotmail.fr", true),
+            array("bomba@hotmail.co.uk", true),
+            array("bomba&6@gmail.com", true),
+            array("bomba@yahoo.com.vn.a.ab", true),
+            array("kianbomba@@gmail.com", false),
+        );
+    }
 
-	public function testEmailPassCase4(): void
-	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("kian.bomba@abcs.co.nz"));
-	}
-
-	public function testCheckEmailPassCase2(): void
-	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("bomba+hello@hotmail.fr"));
-	}
-
-	public function testCheckEmailPassCase3(): void
-	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("bomba@hotmail.co.uk"));
-	}
-
-	public function testCheckEmailFailCase(): void
-	{
-		$this->assertTrue(Invoker::getInstance()->isEmail("bomba&6@gmail.com"));
-	}
-
-	public function testCheckEmailFailCase2(): void
-	{
-		$this->assertFalse(Invoker::getInstance()->isEmail("bomba@yahoo.com.vn.a.ab"));
-	}
+    /**
+     * @dataProvider provideEmailData
+     * @param string $email
+     * @param bool $result
+     */
+    public function testIsEmail(string $email, bool $result): void
+    {
+        $invoker = Invoker::getInstance();
+        $this->assertEquals($result, $invoker->isEmail($email));
+    }
 
 	public function testStringFilter(): void
 	{
@@ -67,14 +58,6 @@ class InvokerTest extends TestCase
 	public function testEncodingSpecialChar(): void
 	{
 		$this->assertEquals('&copy;ufjau&amp;91!*@*#', Invoker::getInstance()->encodeSpecialChars("©ufjau&91!*@*#"));
-	}
-
-	/**
-	 * @throws InvokerException
-	 */
-	public function testEncodingSpecialChar2(): void
-	{
-		$this->assertEquals("@&#38;&#62;1jicace", Invoker::getInstance()->encodeSpecialChars("@&>1jicace", Invoker::ENTITY_NUMBER));
 	}
 
 
