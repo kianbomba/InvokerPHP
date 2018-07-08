@@ -41,7 +41,7 @@ class InvokerTest extends TestCase
     {
         return array(
             array("Abcudehuea", "\"Abcudehuea", false),
-            array("&quot;Abcudehuea&apos;", "\"Abcudehuea'", true),
+            array("\\\"Abcudehuea\'", "\"Abcudehuea'", true),
             array("hello\nworld\t !! @kian nguyen `name this is it`", "hello\nworld\t !! @kian nguyen `name this is it`", true),
             array("hello world < 5", "hello world < 5", true)
         );

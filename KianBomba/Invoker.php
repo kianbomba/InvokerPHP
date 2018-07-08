@@ -14,8 +14,6 @@ class Invoker
 	private $translations = array(
 		1 => array (
 			'&' => "&amp;",
-			'"' => "&quot;",
-			'\'' => "&apos;",
 			'¢' => "&cent;",
 			'£' => "&pound;",
 			'¥' => "&yen;",
@@ -25,8 +23,6 @@ class Invoker
 		),
 		2 => array (
 			'&' => "&#38;",
-			'"' => "&#34;",
-			'\'' => "&#39;",
 			'¢' => "&#162;",
 			'£' => "&#163;",
 			'¥' => "&#165;",
@@ -106,6 +102,8 @@ class Invoker
 	{
 		if (!is_string($haystack) || is_null($haystack)) return "";
 
+		$haystack = addslashes($haystack);
+
 		if (!$noStrict)
 		{
 			$regex = "/[^a-zA-Z0-9._\-: ]/";
@@ -116,7 +114,7 @@ class Invoker
 
 		try 
 		{
-			$regex = "/[^a-zA-Z0-9._\-:&#@;\\n\\t~!`$%^*(){}\[\]<>?\/=\+ ]/";
+			$regex = "/[^\\a-zA-Z0-9._\-:&#@;~!`$%^*(){}\[\]<>?\/=\+| ]/";
 			$haystack = $this->encodeSpecialChars($haystack);
 			$haystack = strip_tags($haystack);
 
@@ -133,7 +131,7 @@ class Invoker
 	 * @param int $entityType
 	 * @return string
 	 *
-	 *
+	 * @deprecated
 	 * @throws InvokerException
 	 */
 	public function encodeSpecialChars(string $haystack, int $entityType = self::ENTITY_NAME): string
