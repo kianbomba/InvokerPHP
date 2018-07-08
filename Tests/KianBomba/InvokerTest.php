@@ -37,20 +37,27 @@ class InvokerTest extends TestCase
         $this->assertEquals($result, $invoker->isEmail($email));
     }
 
-	public function testStringFilter(): void
-	{
-		$this->assertEquals("Abcudehuea", Invoker::getInstance()->stringFilter("\"Abcudehuea'"));
-	}
+    public function provideStringData(): array
+    {
+        return array(
+            array("Abcudehuea", "\"Abcudehuea", false),
+            array("&quot;Abcudehuea&apos;", "\"Abcudehuea'", true),
+            array("hello\nworld\t !! @kian nguyen `name this is it`", "hello\nworld\t !! @kian nguyen `name this is it`", true),
+            array("hello world < 5", "hello world < 5", true)
+        );
+    }
 
-	public function testStringFilter1(): void
-	{
-		$this->assertEquals("abcde", Invoker::getInstance()->stringFilter("&abcde"));
-	}
-
-	public function testStringFilter2(): void
-	{
-		$this->assertEquals("&quot;Abcudehuea&apos;", Invoker::getInstance()->stringFilter("\"Abcudehuea'", true));
-	}
+    /**
+     * @dataProvider  provideStringData
+     * @param string $result
+     * @param string $input
+     * @param bool $noStrict
+     */
+    public function testStringFilter(string $result, string $input, bool $noStrict): void
+    {
+        $invoker = Invoker::getInstance();
+        $this->assertEquals($result, $invoker->stringFilter($input, $noStrict));
+    }
 
 	/**
 	 * @throws InvokerException
@@ -59,7 +66,6 @@ class InvokerTest extends TestCase
 	{
 		$this->assertEquals('&copy;ufjau&amp;91!*@*#', Invoker::getInstance()->encodeSpecialChars("©ufjau&91!*@*#"));
 	}
-
 
     public function testIsValueTrue(): void
     {

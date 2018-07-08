@@ -99,14 +99,14 @@ class Invoker
 
 	/**
 	 * @param string $haystack
-	 * @param bool $encodeSpecialChars
+	 * @param bool $noStrict
 	 * @return string
 	 */
-	public function stringFilter($haystack, bool $encodeSpecialChars = false): string
+	public function stringFilter($haystack, bool $noStrict = false): string
 	{
 		if (!is_string($haystack) || is_null($haystack)) return "";
 
-		if (!$encodeSpecialChars) 
+		if (!$noStrict)
 		{
 			$regex = "/[^a-zA-Z0-9._\-: ]/";
 
@@ -116,9 +116,10 @@ class Invoker
 
 		try 
 		{
-			$regex = "/[^a-zA-Z0-9._\-:&#@;\\~!`$%^*(){}\[\]<>?\/=\+ ]/";
+			$regex = "/[^a-zA-Z0-9._\-:&#@;\\n\\t~!`$%^*(){}\[\]<>?\/=\+ ]/";
 			$haystack = $this->encodeSpecialChars($haystack);
-			
+			$haystack = strip_tags($haystack);
+
 			return preg_replace($regex, '', $haystack);
 		}
 		catch (InvokerException $ie)
