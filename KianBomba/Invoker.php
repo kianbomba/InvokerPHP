@@ -102,8 +102,6 @@ class Invoker
 	{
 		if (!is_string($haystack) || is_null($haystack)) return "";
 
-		$haystack = addslashes($haystack);
-
 		if (!$noStrict)
 		{
 			$regex = "/[^a-zA-Z0-9._\-: ]/";
