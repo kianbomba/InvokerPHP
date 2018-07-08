@@ -113,9 +113,9 @@ class Invoker
 		try 
 		{
 			$regex = "/[^\\a-zA-Z0-9._\-:&#@;~!`$%^*(){}\[\]<>?\/=\+| ]/";
-			$haystack = $this->encodeSpecialChars($haystack);
 			$haystack = strip_tags($haystack);
-
+            $haystack = str_replace("\\n", "\n", $haystack);
+            $haystack = str_replace("\\t", "\t", $haystack);
 			return preg_replace($regex, '', $haystack);
 		}
 		catch (InvokerException $ie)
