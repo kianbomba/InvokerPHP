@@ -90,7 +90,12 @@ class Invoker
 	{
 		if (!is_numeric($number)) return 0;
 
-		return (float) filter_var($number, FILTER_SANITIZE_NUMBER_FLOAT, ['options' => array('default' => 0)]);
+		return (float) filter_var($number, FILTER_SANITIZE_NUMBER_FLOAT,
+            array(
+                'options' => array('default' => 0),
+                'flags' => FILTER_FLAG_ALLOW_FRACTION
+            )
+        );
 	}
 
 	/**
@@ -174,7 +179,7 @@ class Invoker
         if (is_null($value)) return false;
         if (is_bool($value)) return $value;
 
-        return in_array(strtolower($value), ["y", "yes", "1", 1, "true"]);
+        return in_array(strtolower((string) $value), ["y", "yes", "1", 1, "true"]);
     }
 
     /**

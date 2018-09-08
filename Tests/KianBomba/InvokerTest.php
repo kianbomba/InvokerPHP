@@ -77,4 +77,10 @@ class InvokerTest extends TestCase
         $expeceted = "kianbomba@gmail.com";
         $this->assertEquals($expeceted, Invoker::getInstance()->emailFilter($expeceted));
     }
+
+    public function testFloatFilter(): void
+    {
+        $expected = "50.25";
+        $this->assertEquals($expected, Invoker::getInstance()->floatFilter($expected));
+    }
 }
